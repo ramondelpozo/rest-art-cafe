@@ -1,159 +1,129 @@
-'use client'; // Necesario para usar useSearchParams y Suspense
+'use client';
 
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
-import { Suspense, useState } from 'react';
+import { useState, Suspense, useEffect } from 'react';
 
-// Componente principal que contiene la lógica de la carta
+// Datos de ejemplo (puedes expandirlos)
+const MENU_ITEMS = [
+  { id: 1, category: 'patatas', name: 'Sartén de Huevos camperos', desc: 'Con jamón ibérico', price: 13.50 },
+  { id: 2, category: 'patatas', name: 'Patatas Bravas', desc: 'Salsa especial de la casa', price: 7.50 },
+  { id: 3, category: 'carnes', name: 'Medallones de solomillo', desc: 'Queso cheddar y cebolla caramelizada', price: 12.80 },
+  { id: 4, category: 'carnes', name: 'Lomo madurado', desc: '350gr aprox', price: 25.50 },
+  { id: 5, category: 'vinos', name: 'Carramimbre', desc: 'D.O. Ribera del Duero', price: 3.50 },
+  { id: 6, category: 'cervezas', name: 'Ámbar Especial', desc: 'Copa', price: 3.20 },
+];
+
 function CartaContent() {
   const searchParams = useSearchParams();
   const mesa = searchParams.get('mesa');
-  
-  // Estado simple para simular categorías
-  const [activeCategory, setActiveCategory] = useState('carnes');
+  const [activeCategory, setActiveCategory] = useState('all');
+  const [cart, setCart] = useState<any[]>([]);
 
-  const categories = [
-    { id: 'patatas', name: 'De Patatas', icon: '🍟' },
-    { id: 'carnes', name: 'Carnes', icon: '🥩' },
-    { id: 'vinos', name: 'Vinos', icon: '🍷' },
-    { id: 'cervezas', name: 'Cervezas', icon: '🍺' },
-    { id: 'bebidas', name: 'Bebidas', icon: '🥤' },
-    { id: 'combinados', name: 'Combinados', icon: '🍸' },
-  ];
+  // Filtrar items
+  const filteredItems = activeCategory === 'all' 
+    ? MENU_ITEMS 
+    : MENU_ITEMS.filter(item => item.category === activeCategory);
+
+  // Añadir al carrito
+  const addToCart = (item: any) => {
+    setCart([...cart, item]);
+  };
+
+  // Generar enlace WhatsApp
+  const sendOrder = () => {
+    if (cart.length === 0) return;
+    
+    let message = `Hola Rest Art Café 👋\n`;
+    if (mesa) message += `📍 *Mesa ${mesa}*\n\n`;
+    else message += `📍 *Pedido General*\n\n`;
+    
+    message += `*Mi Pedido:*\n`;
+    cart.forEach((item, index) => {
+      message += `${index + 1}. ${item.name} (${item.price}€)\n`;
+    });
+    
+    const total = cart.reduce((sum, item) => sum + item.price, 0);
+    message += `\n💰 *Total estimado: ${total.toFixed(2)}€*`;
+    
+    const url = `https://wa.me/34910712322?text=${encodeURIComponent(message)}`;
+    window.open(url, '_blank');
+  };
 
   return (
-    <main className="min-h-screen bg-stone-50 pb-20">
+    <main className="min-h-screen bg-[#fdfbf7] pb-32">
       {/* Header Carta */}
-      <div className="bg-stone-900 text-white p-6 sticky top-0 z-20 shadow-lg">
+      <div className="bg-stone-900 text-white p-6 sticky top-0 z-30 shadow-lg">
         <div className="max-w-2xl mx-auto flex justify-between items-center">
-          <Link href="/" className="text-amber-500 hover:text-amber-400 font-bold flex items-center gap-2">
-            ← Volver
-          </Link>
+          <Link href="/" className="text-amber-500 hover:text-white transition font-serif text-xl">← Volver</Link>
           <div className="text-right">
-            <h1 className="text-xl font-bold">La Carta</h1>
-            {mesa && <span className="text-xs text-amber-500 font-mono bg-amber-900/30 px-2 py-1 rounded">Mesa {mesa}</span>}
+            <h1 className="font-serif text-2xl font-bold">La Carta</h1>
+            {mesa && <span className="text-xs text-amber-500 font-mono bg-amber-900/30 px-2 py-1 rounded">MESA {mesa}</span>}
           </div>
         </div>
       </div>
 
-      {/* Navegación Categorías */}
-      <div className="bg-white border-b border-stone-200 sticky top-[88px] z-10 overflow-x-auto no-scrollbar">
-        <div className="max-w-2xl mx-auto flex p-2 gap-2 min-w-max">
-          {categories.map((cat) => (
+      {/* Categorías Sticky */}
+      <div className="bg-white border-b border-stone-200 sticky top-[88px] z-20 overflow-x-auto no-scrollbar shadow-sm">
+        <div className="max-w-2xl mx-auto flex p-4 gap-3 min-w-max">
+          {['all', 'patatas', 'carnes', 'vinos', 'cervezas'].map((cat) => (
             <button
-              key={cat.id}
-              onClick={() => setActiveCategory(cat.id)}
-              className={`px-4 py-2 rounded-full text-sm font-bold transition whitespace-nowrap ${
-                activeCategory === cat.id 
-                  ? 'bg-amber-600 text-white shadow-md' 
-                  : 'bg-stone-100 text-stone-600 hover:bg-stone-200'
+              key={cat}
+              onClick={() => setActiveCategory(cat)}
+              className={`px-6 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all ${
+                activeCategory === cat ? 'bg-stone-900 text-white shadow-lg' : 'bg-stone-100 text-stone-500 hover:bg-stone-200'
               }`}
             >
-              {cat.icon} {cat.name}
+              {cat}
             </button>
           ))}
         </div>
       </div>
 
-      {/* Contenido Carta */}
-      <div className="max-w-2xl mx-auto p-4 mt-4 space-y-8">
-        
-        {/* Sección De Patatas */}
-        {(activeCategory === 'patatas' || activeCategory === 'all') && (
-          <section id="patatas" className="scroll-mt-40">
-            <h2 className="text-2xl font-bold text-stone-800 mb-4 flex items-center gap-2">
-              🍟 De Patatas
-            </h2>
-            <div className="bg-white rounded-xl shadow-sm border border-stone-100 overflow-hidden">
-              <MenuItem name="Sartén de Huevos camperos" desc="Huevos camperos, jamón ibérico" price="13,50€" />
-              <MenuItem name="Sartén de Huevos camperos (Trufa)" desc="Lascas de queso parmiggiano, trufa blanca" price="13,50€" />
-              <MenuItem name="Patatas Bravas" desc="Nuestra salsa especial" price="7,50€" />
-              <MenuItem name="Patatas Rancheras" desc="Bacon, triple queso fundido, salsa ranchera" price="13,50€" />
+      {/* Lista de Platos */}
+      <div className="max-w-2xl mx-auto p-6 space-y-6">
+        {filteredItems.map((item) => (
+          <div key={item.id} className="bg-white p-6 rounded-sm shadow-sm border border-stone-100 flex justify-between items-start group hover:shadow-md transition-shadow">
+            <div>
+              <h3 className="font-serif font-bold text-lg text-stone-900">{item.name}</h3>
+              <p className="text-stone-500 text-sm mt-1 font-light">{item.desc}</p>
+              <span className="text-amber-700 font-bold mt-2 block">{item.price.toFixed(2)} €</span>
             </div>
-          </section>
-        )}
-
-        {/* Sección Carnes */}
-        {(activeCategory === 'carnes' || activeCategory === 'all') && (
-          <section id="carnes" className="scroll-mt-40">
-            <h2 className="text-2xl font-bold text-stone-800 mb-4 flex items-center gap-2">
-              🥩 Carnes
-            </h2>
-            <div className="bg-white rounded-xl shadow-sm border border-stone-100 overflow-hidden">
-              <MenuItem name="Medallones de solomillo" desc="Queso cheddar, cebolla caramelizada, crema de P.X." price="12,80€" />
-              <MenuItem name="Lomo madurado de vaca" desc="A la plancha (350 gr. apx.)" price="25,50€" />
-              <MenuItem name="Cachopo asturiano" desc="Aprox 300gr" price="16,50€" />
-            </div>
-          </section>
-        )}
-
-        {/* Sección Vinos */}
-        {(activeCategory === 'vinos' || activeCategory === 'all') && (
-          <section id="vinos" className="scroll-mt-40">
-            <h2 className="text-2xl font-bold text-stone-800 mb-4 flex items-center gap-2">
-              🍷 Vinos
-            </h2>
-            <div className="bg-white rounded-xl shadow-sm border border-stone-100 overflow-hidden">
-              <MenuItem name="CARRAMIMBRE" desc="D.O. Ribera del Duero" price="3,50€" />
-              <MenuItem name="SECTUM" desc="Rioja Crianza" price="3,50€" />
-              <MenuItem name="RUEDA" desc="Castillo de Berisa" price="3,20€" />
-              <MenuItem name="ALBARIÑO RÍAS BAIXAS" desc="Alvinte" price="3,80€" />
-              <MenuItem name="TINTO DE VERANO" desc="Hecho en casa con Rioja, vermut y Fanta de limón" price="3,80€" />
-            </div>
-          </section>
-        )}
-
-         {/* Sección Cervezas */}
-         {(activeCategory === 'cervezas' || activeCategory === 'all') && (
-          <section id="cervezas" className="scroll-mt-40">
-            <h2 className="text-2xl font-bold text-stone-800 mb-4 flex items-center gap-2">
-              🍺 Cervezas
-            </h2>
-            <div className="bg-white rounded-xl shadow-sm border border-stone-100 overflow-hidden">
-              <MenuItem name="ÁMBAR ESPECIAL (Copa)" desc="Cerveza de barril - 5,2% alc." price="3,20€" />
-              <MenuItem name="MAHOU 5 ESTRELLAS" desc="Botella 1/3" price="3,50€" />
-              <MenuItem name="ÁMBAR RADLER" desc="Botella 1/3" price="3,20€" />
-              <MenuItem name="ÁMBAR TOSTADA 0.0" desc="Botella 1/3 (Sin Alcohol)" price="3,50€" />
-              <MenuItem name="Jarra de cerveza ÁMBAR" desc="" price="4,50€" />
-              <MenuItem name="ALHAMBRA 1925" desc="" price="3,50€" />
-            </div>
-          </section>
-        )}
-
+            <button 
+              onClick={() => addToCart(item)}
+              className="bg-stone-100 hover:bg-amber-600 hover:text-white text-stone-900 w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300"
+            >
+              +
+            </button>
+          </div>
+        ))}
       </div>
+
+      {/* Botón Flotante Enviar Pedido */}
+      {cart.length > 0 && (
+        <div className="fixed bottom-6 left-0 right-0 px-6 z-40">
+          <div className="max-w-2xl mx-auto bg-stone-900 text-white p-4 rounded-sm shadow-2xl flex justify-between items-center">
+            <div>
+              <span className="block text-xs text-stone-400 uppercase tracking-wider">{cart.length} platos seleccionados</span>
+              <span className="font-bold text-lg">{cart.reduce((s, i) => s + i.price, 0).toFixed(2)} €</span>
+            </div>
+            <button 
+              onClick={sendOrder}
+              className="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-sm font-bold text-sm uppercase tracking-wider transition-colors flex items-center gap-2"
+            >
+              <span>Enviar Pedido</span>
+              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.592 2.654-.696c1.001.572 2.135.882 3.309.883h.001c3.181 0 5.768-2.586 5.768-5.766.001-3.181-2.585-5.767-5.767-5.767zm12 5.767c0 6.627-5.373 12-12 12s-12-5.373-12-12 5.373-12 12-12 12 5.373 12 12zm-4.447 3.19c-.237-.119-1.403-.692-1.62-.771-.216-.079-.373-.119-.53.119-.158.238-.613.771-.751.929-.139.158-.277.178-.515.059-.238-.119-1.005-.371-1.913-1.179-.707-.631-1.185-1.41-1.323-1.648-.139-.238-.015-.366.104-.484.108-.107.238-.277.357-.416.119-.139.158-.238.238-.397.079-.158.04-.297-.02-.416-.059-.119-.534-1.283-.731-1.758-.193-.464-.391-.4-.535-.408-.139-.008-.297-.008-.456-.008-.158 0-.416.059-.634.297-.218.238-.831.812-.831 1.981 0 1.169.851 2.298.97 2.457.119.158 1.679 2.564 4.075 3.597.571.247 1.017.394 1.363.504.573.182 1.095.156 1.507.094.461-.069 1.403-.574 1.601-1.129.198-.555.198-1.031.139-1.129-.059-.099-.218-.158-.456-.277z"/></svg>
+            </button>
+          </div>
+        </div>
+      )}
     </main>
   );
 }
 
-// Componente auxiliar para cada plato
-function MenuItem({ name, desc, price }: { name: string, desc: string, price: string }) {
-  return (
-    <div className="flex justify-between items-start p-4 border-b border-stone-100 last:border-0 hover:bg-stone-50 transition">
-      <div className="pr-4">
-        <h3 className="font-bold text-stone-900">{name}</h3>
-        {desc && <p className="text-stone-500 text-sm mt-1 leading-tight">{desc}</p>}
-      </div>
-      <span className="font-bold text-amber-700 whitespace-nowrap">{price}</span>
-    </div>
-  );
-}
-
-// Componente de carga mientras se resuelve el Suspense
-function LoadingCarta() {
-  return (
-    <div className="min-h-screen bg-stone-50 flex items-center justify-center">
-      <div className="text-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-amber-600 mx-auto mb-4"></div>
-        <p className="text-stone-600">Cargando carta...</p>
-      </div>
-    </div>
-  );
-}
-
-// Exportación principal envuelta en Suspense
 export default function CartaPage() {
   return (
-    <Suspense fallback={<LoadingCarta />}>
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center bg-[#fdfbf7]">Cargando experiencia...</div>}>
       <CartaContent />
     </Suspense>
   );
