@@ -5,14 +5,14 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-[#fdfbf7] text-stone-800 font-sans selection:bg-amber-200 scroll-smooth">
       
-      {/* --- HEADER ELEGANTE --- */}
+      {/* --- HEADER ELEGANTE Y COMPLETO --- */}
       <header className="bg-white/95 backdrop-blur-sm border-b border-stone-200 sticky top-0 z-50 shadow-sm transition-all duration-300">
         <div className="container mx-auto px-4 py-3 flex justify-between items-center">
           <Link href="/" className="text-2xl md:text-3xl font-serif font-bold text-stone-900 tracking-wide flex items-center gap-1">
             Rest <span className="text-amber-700">Art</span> Café
           </Link>
           
-          {/* Navegación Desktop */}
+          {/* Navegación Desktop Completa */}
           <nav className="hidden lg:flex space-x-6 text-sm font-medium uppercase tracking-wider text-stone-600">
             <Link href="#inicio" className="hover:text-amber-700 transition-colors py-2 border-b-2 border-transparent hover:border-amber-700">Inicio</Link>
             <Link href="#menu-diario" className="hover:text-amber-700 transition-colors py-2 border-b-2 border-transparent hover:border-amber-700">Menú</Link>
@@ -22,7 +22,7 @@ export default function Home() {
             <Link href="#ubicacion" className="hover:text-amber-700 transition-colors py-2 border-b-2 border-transparent hover:border-amber-700">Ubicación</Link>
           </nav>
 
-          {/* Botones Acción */}
+          {/* Botones de Acción */}
           <div className="flex items-center gap-3">
             <a href="https://wa.me/34910712322" target="_blank" rel="noopener noreferrer" className="bg-green-600 text-white px-4 py-2 rounded-full text-xs md:text-sm font-bold hover:bg-green-700 transition flex items-center gap-2 shadow-md">
               <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.592 2.654-.696c1.001.572 2.135.882 3.309.883h.001c3.181 0 5.768-2.586 5.768-5.766.001-3.181-2.585-5.767-5.767-5.767zm12 5.767c0 6.627-5.373 12-12 12s-12-5.373-12-12 5.373-12 12-12 12 5.373 12 12zm-4.447 3.19c-.237-.119-1.403-.692-1.62-.771-.216-.079-.373-.119-.53.119-.158.238-.613.771-.751.929-.139.158-.277.178-.515.059-.238-.119-1.005-.371-1.913-1.179-.707-.631-1.185-1.41-1.323-1.648-.139-.238-.015-.366.104-.484.108-.107.238-.277.357-.416.119-.139.158-.238.238-.397.079-.158.04-.297-.02-.416-.059-.119-.534-1.283-.731-1.758-.193-.464-.391-.4-.535-.408-.139-.008-.297-.008-.456-.008-.158 0-.416.059-.634.297-.218.238-.831.812-.831 1.981 0 1.169.851 2.298.97 2.457.119.158 1.679 2.564 4.075 3.597.571.247 1.017.394 1.363.504.573.182 1.095.156 1.507.094.461-.069 1.403-.574 1.601-1.129.198-.555.198-1.031.139-1.129-.059-.099-.218-.158-.456-.277z"/></svg>
@@ -35,7 +35,7 @@ export default function Home() {
         </div>
       </header>
 
-      {/* --- HERO SECTION --- */}
+      {/* --- HERO SECTION CON DETALLES --- */}
       <section id="inicio" className="relative h-[85vh] w-full overflow-hidden">
         <Image 
           src="/img/hero-fachada.webp" 
@@ -63,7 +63,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* --- INFO RÁPIDA --- */}
+      {/* --- INFO RÁPIDA ESTILIZADA --- */}
       <section className="py-16 bg-white border-b border-stone-100">
         <div className="container mx-auto px-4 grid md:grid-cols-3 gap-8 text-center divide-y md:divide-y-0 md:divide-x divide-stone-200">
           <div className="p-6">
@@ -82,7 +82,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* --- MENÚ DEL DÍA --- */}
+      {/* --- MENÚ DEL DÍA DETALLADO --- */}
       <section id="menu-diario" className="py-24 container mx-auto px-4 bg-[#fdfbf7]">
         <div className="text-center mb-16">
           <span className="text-amber-700 font-serif italic text-lg">Lunes a Viernes</span>
@@ -128,7 +128,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* --- QR MESAS --- */}
+      {/* --- QR MESAS INTERACTIVO --- */}
       <section className="bg-stone-900 text-white py-20 relative overflow-hidden">
         <div className="absolute inset-0 opacity-20 bg-[url('/img/hero-fachada.webp')] bg-cover bg-center"></div>
         <div className="container mx-auto px-4 text-center relative z-10">
@@ -154,7 +154,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* --- CARTA DESTACADA --- */}
+      {/* --- CARTA DESTACADA CON PRECIOS --- */}
       <section id="carta" className="py-24 container mx-auto px-4 bg-white">
         <div className="text-center mb-16">
           <h2 className="text-4xl font-serif font-bold text-stone-900 mb-4">Nuestra Carta</h2>
@@ -212,7 +212,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* --- GALERÍA DE 6 IMÁGENES PERFECTAMENTE CUADRADAS --- */}
+      {/* --- GALERÍA DE 6 IMÁGENES CUADRADAS PERFECTAS --- */}
       <section id="galeria" className="py-24 bg-[#fdfbf7]">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
@@ -243,7 +243,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* --- RESEÑAS --- */}
+      {/* --- RESEÑAS VERIFICADAS --- */}
       <section id="resenas" className="py-24 bg-white">
         <div className="container mx-auto px-4 max-w-5xl">
           <div className="text-center mb-16">
@@ -300,7 +300,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* --- RESERVAS --- */}
+      {/* --- RESERVAS CON FORMULARIO COMPLETO --- */}
       <section id="reservas" className="py-24 bg-[#fdfbf7]">
         <div className="container mx-auto px-4 max-w-5xl">
           <div className="bg-white rounded-sm shadow-2xl overflow-hidden flex flex-col md:flex-row">
@@ -372,7 +372,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* --- UBICACIÓN CON MAPA --- */}
+      {/* --- UBICACIÓN CON MAPA REAL Y CONTACTO --- */}
       <section id="ubicacion" className="py-24 bg-white border-t border-stone-100">
         <div className="container mx-auto px-4 grid md:grid-cols-2 gap-16 items-start">
           <div>
