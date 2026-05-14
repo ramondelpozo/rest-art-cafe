@@ -3,231 +3,203 @@ import Link from 'next/link';
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-[#fdfbf7] text-stone-800 font-sans selection:bg-amber-200/50 overflow-x-hidden scroll-smooth">
+    <main className="min-h-screen bg-white text-stone-800 font-sans selection:bg-amber-100">
       
-      {/* --- HEADER --- */}
-      <header className="fixed w-full top-0 z-50 transition-all duration-300 bg-white/95 backdrop-blur-md border-b border-stone-100 shadow-sm">
-        <div className="container mx-auto px-6 py-4 flex justify-between items-center">
-          <Link href="/" className="text-2xl md:text-3xl font-serif font-bold text-stone-900 tracking-wide group">
-            Rest <span className="text-[#b45309] group-hover:text-amber-700 transition-colors">Art</span> Café
+      {/* --- HEADER CLÁSICO --- */}
+      <header className="bg-white border-b border-stone-200 sticky top-0 z-50">
+        <div className="container mx-auto px-4 py-4 flex justify-between items-center">
+          <Link href="/" className="text-3xl font-serif font-bold text-stone-900 tracking-wide">
+            Rest <span className="text-[#b45309]">Art</span> Café
           </Link>
           
-          <nav className="hidden lg:flex space-x-8 text-sm font-medium uppercase tracking-wider text-stone-600">
-            {['Inicio', 'Menú', 'Carta', 'Reservas', 'Galería', 'Ubicación'].map((item) => (
-              <Link key={item} href={`#${item.toLowerCase().replace(' ', '-')}`} className="hover:text-[#b45309] transition-colors relative group">
-                {item}
-                <span className="absolute -bottom-2 left-0 w-0 h-0.5 bg-[#b45309] transition-all duration-300 group-hover:w-full"></span>
-              </Link>
-            ))}
+          <nav className="hidden md:flex space-x-8 text-sm font-medium uppercase tracking-wider text-stone-600">
+            <Link href="#menu" className="hover:text-[#b45309] transition-colors">Menú</Link>
+            <Link href="#carta" className="hover:text-[#b45309] transition-colors">Carta</Link>
+            <Link href="#galeria" className="hover:text-[#b45309] transition-colors">Galería</Link>
+            <Link href="#reservas" className="hover:text-[#b45309] transition-colors">Reservas</Link>
+            <Link href="#ubicacion" className="hover:text-[#b45309] transition-colors">Ubicación</Link>
           </nav>
 
-          <a href="https://wa.me/34910712322" target="_blank" rel="noopener noreferrer" className="bg-green-600 text-white px-5 py-2.5 rounded-full text-sm font-bold hover:bg-green-700 transition shadow-lg flex items-center gap-2">
+          <a href="https://wa.me/34910712322" className="bg-green-600 text-white px-4 py-2 rounded-full text-sm font-bold hover:bg-green-700 transition flex items-center gap-2 shadow-md">
             WhatsApp
           </a>
         </div>
       </header>
 
-      {/* --- HERO CORREGIDO (Título Grande, Subtítulo Pequeño) --- */}
-      <section id="inicio" className="relative h-screen w-full overflow-hidden flex items-center justify-center">
-        <div className="absolute inset-0 z-0">
-          <Image src="/img/hero-fachada.webp" alt="Rest Art Café" fill className="object-cover brightness-[0.5]" priority />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/30"></div>
-        </div>
-        
-        <div className="relative z-10 text-center text-white px-4 max-w-4xl mx-auto">
-          <h1 className="text-6xl md:text-8xl lg:text-9xl font-serif font-bold mb-4 leading-tight drop-shadow-2xl tracking-tight text-white">
+      {/* --- HERO ESTILO ORIGINAL --- */}
+      <section id="inicio" className="relative h-[85vh] w-full overflow-hidden">
+        <Image 
+          src="/img/hero-fachada.webp" 
+          alt="Terraza Rest Art Café" 
+          fill 
+          className="object-cover brightness-[0.6]"
+          priority
+        />
+        <div className="absolute inset-0 flex flex-col justify-center items-center text-center text-white px-4">
+          <h1 className="text-5xl md:text-7xl font-serif font-bold mb-4 drop-shadow-lg tracking-tight">
             REST ART CAFÉ
           </h1>
-          
-          <p className="text-lg md:text-xl text-stone-200 mb-10 font-light italic opacity-90">
+          <p className="text-xl md:text-2xl mb-8 font-light italic max-w-2xl drop-shadow-md">
             Donde la tradición se encuentra con la innovación
           </p>
-          
-          <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <Link href="#reservas" className="bg-[#b45309] hover:bg-amber-800 text-white px-8 py-4 rounded-sm font-serif font-bold text-lg transition-all duration-300 shadow-xl transform hover:-translate-y-1">
+          <div className="flex flex-col sm:flex-row gap-4">
+            <Link href="#reservas" className="bg-[#b45309] hover:bg-amber-800 text-white px-8 py-3 rounded-sm font-serif font-bold transition text-lg shadow-lg">
               Reservar Mesa
             </Link>
-            <Link href="#pedido-mesa" className="bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/30 text-white px-8 py-4 rounded-sm font-serif font-bold text-lg transition-all duration-300 hover:border-white transform hover:-translate-y-1">
+            <Link href="#pedido-mesa" className="bg-white hover:bg-stone-100 text-stone-900 px-8 py-3 rounded-sm font-serif font-bold transition text-lg shadow-lg">
               Pedir desde la Mesa
             </Link>
           </div>
         </div>
       </section>
 
-      {/* --- INFO CARDS --- */}
-      <section className="py-20 bg-white relative -mt-20 z-20 container mx-auto px-4">
-        <div className="grid md:grid-cols-3 gap-8">
-          {[
-            { title: "Ubicación", icon: "📍", text: "C. de Sierra Toledana, 4\n28038 Madrid, Vallecas", link: "#ubicacion" },
-            { title: "Horario", icon: "🕒", text: "L-D: 13:00 - 00:00\nV-S: Hasta las 01:00", link: null },
-            { title: "Servicios", icon: "✨", text: "Terraza Jardín · PMR\nCocina de Autor", link: null }
-          ].map((card, idx) => (
-            <div key={idx} className="bg-[#fdfbf7] p-8 rounded-sm shadow-lg border-t-4 border-[#b45309] hover:shadow-xl transition-shadow duration-300">
-              <div className="text-4xl mb-4">{card.icon}</div>
-              <h3 className="font-serif font-bold text-2xl text-stone-900 mb-3">{card.title}</h3>
-              <p className="text-stone-600 whitespace-pre-line leading-relaxed mb-4 font-light">{card.text}</p>
-              {card.link && <Link href={card.link} className="text-[#b45309] font-bold text-sm uppercase tracking-wide hover:text-amber-800 inline-flex items-center gap-1">Cómo llegar →</Link>}
-            </div>
-          ))}
+      {/* --- INFO RÁPIDA --- */}
+      <section className="py-12 bg-stone-50 border-b border-stone-200">
+        <div className="container mx-auto px-4 grid md:grid-cols-3 gap-8 text-center divide-y md:divide-y-0 md:divide-x divide-stone-300">
+          <div className="p-4">
+            <h3 className="font-serif font-bold text-[#b45309] mb-2 uppercase text-sm tracking-wide">Ubicación</h3>
+            <p className="text-stone-600">C. de Sierra Toledana, 4<br/>28038 Madrid</p>
+          </div>
+          <div className="p-4">
+            <h3 className="font-serif font-bold text-[#b45309] mb-2 uppercase text-sm tracking-wide">Horario</h3>
+            <p className="text-stone-600">L-D: 13:00 - 00:00<br/>V-S: Hasta las 01:00</p>
+          </div>
+          <div className="p-4">
+            <h3 className="font-serif font-bold text-[#b45309] mb-2 uppercase text-sm tracking-wide">Servicios</h3>
+            <p className="text-stone-600">Terraza · Accesible · Para llevar</p>
+          </div>
         </div>
       </section>
 
       {/* --- MENÚ DEL DÍA --- */}
-      <section id="menú" className="py-24 bg-[#fdfbf7]">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <span className="text-[#b45309] font-serif italic text-lg">Lunes a Viernes</span>
-            <h2 className="text-5xl font-serif font-bold text-stone-900 mt-2 mb-6">Menú del Día</h2>
-            <div className="mt-8 inline-block bg-white border-2 border-[#b45309] text-[#b45309] px-8 py-3 rounded-sm font-serif font-bold text-2xl shadow-sm">
-              12,50 €
-            </div>
+      <section id="menu" className="py-20 container mx-auto px-4 bg-white">
+        <div className="text-center mb-16">
+          <span className="text-[#b45309] font-serif italic text-lg">Lunes a Viernes</span>
+          <h2 className="text-4xl font-serif font-bold text-stone-900 mt-2 mb-6">Menú del Día</h2>
+          <div className="inline-block bg-stone-100 border border-stone-300 px-6 py-2 rounded-sm font-serif font-bold text-xl text-stone-800">
+            12,50 €
           </div>
+        </div>
 
-          <div className="grid md:grid-cols-3 gap-10 max-w-6xl mx-auto">
-             <div className="bg-white p-8 rounded-sm shadow-lg border-t-4 border-[#b45309]">
-                <h3 className="text-2xl font-serif font-bold mb-6 text-stone-800 border-b border-stone-100 pb-4">🥗 Primeros Platos</h3>
-                <ul className="space-y-4 text-stone-700 font-light">
-                  <li>Alubias blancas con matanza asturiana</li>
-                  <li>Tallarines con langostinos</li>
-                  <li>Calabacín relleno gratinado</li>
-                  <li>Ensalada mixta gourmet</li>
-                </ul>
-             </div>
-             
-             <div className="bg-stone-900 text-white p-8 rounded-sm shadow-2xl text-center transform md:-translate-y-4 relative overflow-hidden">
-                <div className="absolute top-0 left-0 w-full h-2 bg-[#b45309]"></div>
-                <h3 className="font-serif text-2xl mb-2">Menú Completo</h3>
-                <p className="text-stone-400 text-sm uppercase tracking-widest mb-6">Incluye Pan, Postre y Café</p>
-                <Link href="#reservas" className="inline-block border border-white/30 px-6 py-2 rounded-sm text-xs font-bold uppercase tracking-widest hover:bg-white hover:text-stone-900 transition-all">Reservar Ahora</Link>
-             </div>
-
-             <div className="bg-white p-8 rounded-sm shadow-lg border-t-4 border-[#b45309]">
-                <h3 className="text-2xl font-serif font-bold mb-6 text-stone-800 border-b border-stone-100 pb-4">🥩 Segundos Platos</h3>
-                <ul className="space-y-4 text-stone-700 font-light">
-                  <li>Entraña de ternera a la plancha</li>
-                  <li>Pechuga de pollo crispy</li>
-                  <li>Lomo de salmón salvaje</li>
-                  <li>Opción Vegetariana del día</li>
-                </ul>
-             </div>
+        <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+          <div className="border border-stone-200 p-8 rounded-sm bg-stone-50">
+            <h3 className="text-xl font-serif font-bold mb-6 text-stone-800 border-b border-stone-300 pb-2">Primeros</h3>
+            <ul className="space-y-3 text-stone-700">
+              <li>Alubias blancas con matanza</li>
+              <li>Tallarines con langostinos</li>
+              <li>Calabacín relleno gratinado</li>
+              <li>Ensalada mixta</li>
+            </ul>
+          </div>
+          <div className="border-2 border-[#b45309] p-8 rounded-sm bg-white shadow-lg transform md:-translate-y-4">
+            <h3 className="text-xl font-serif font-bold mb-6 text-[#b45309] border-b border-[#b45309]/30 pb-2">Segundos</h3>
+            <ul className="space-y-3 text-stone-700">
+              <li>Entraña de ternera</li>
+              <li>Pechuga de pollo crispy</li>
+              <li>Lomo de salmón</li>
+              <li>Opción vegetariana</li>
+            </ul>
+          </div>
+          <div className="border border-stone-200 p-8 rounded-sm bg-stone-50">
+            <h3 className="text-xl font-serif font-bold mb-6 text-stone-800 border-b border-stone-300 pb-2">Postres</h3>
+            <ul className="space-y-3 text-stone-700">
+              <li>Flan casero</li>
+              <li>Natillas</li>
+              <li>Fruta del tiempo</li>
+              <li>Café o infusión</li>
+            </ul>
           </div>
         </div>
       </section>
 
       {/* --- PEDIDO DESDE MESA --- */}
-      <section id="pedido-mesa" className="py-24 bg-stone-900 text-white relative overflow-hidden">
-        <div className="absolute inset-0 opacity-10 bg-[url('/img/hero-fachada.webp')] bg-cover bg-center"></div>
-        <div className="container mx-auto px-4 relative z-10 text-center">
-          <h2 className="text-4xl md:text-5xl font-serif font-bold mb-8">Digital Table Service</h2>
-          <p className="text-stone-400 text-lg mb-12 max-w-2xl mx-auto font-light">Selecciona tu mesa y realiza tu pedido directamente a cocina mediante WhatsApp.</p>
+      <section id="pedido-mesa" className="py-20 bg-stone-900 text-white text-center">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl font-serif font-bold mb-8">¿Estás en una de nuestras mesas?</h2>
+          <p className="mb-10 text-stone-400">Selecciona tu número para acceder al menú digital y pedir por WhatsApp</p>
           
-          <div className="grid grid-cols-5 md:grid-cols-10 gap-4 max-w-4xl mx-auto mb-12">
+          <div className="flex flex-wrap justify-center gap-3 max-w-3xl mx-auto mb-8">
             {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((num) => (
-              <Link key={num} href={`/carta?mesa=${num}`} className="aspect-square flex items-center justify-center bg-white/5 border border-white/10 rounded-sm hover:bg-[#b45309] hover:border-[#b45309] hover:scale-110 transition-all duration-300 font-serif text-xl font-bold">
+              <Link 
+                key={num}
+                href={`/carta?mesa=${num}`} 
+                className="w-12 h-12 flex items-center justify-center bg-stone-800 hover:bg-[#b45309] rounded-sm font-serif font-bold text-xl transition-all duration-300 border border-stone-700"
+              >
                 {num}
               </Link>
             ))}
           </div>
-          <Link href="/carta" className="text-[#d97706] hover:text-white underline decoration-[#d97706] underline-offset-4 transition-colors">Ver carta sin asignar mesa</Link>
         </div>
       </section>
 
-      {/* --- GALERÍA DE 6 IMÁGENES (CORREGIDO) --- */}
-      <section id="galería" className="py-24 bg-white">
+      {/* --- GALERÍA DE 6 IMÁGENES CUADRADAS --- */}
+      <section id="galeria" className="py-20 bg-white">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-5xl font-serif font-bold text-stone-900 mb-2">Galería</h2>
-            <p className="text-stone-500 font-light">Nuestros espacios y creaciones</p>
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-serif font-bold text-stone-900 mb-2">Galería</h2>
+            <p className="text-stone-500">Nuestros espacios y platos</p>
           </div>
-
-          {/* Grid de 6 imágenes: 3 columnas en desktop, 2 en móvil */}
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 max-w-6xl mx-auto">
+          
+          {/* Grid perfecto de 6 imágenes: 3 columnas x 2 filas */}
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 max-w-5xl mx-auto">
             {[1, 2, 3, 4, 5, 6].map((num) => (
-              <div key={num} className="relative aspect-square group overflow-hidden rounded-sm shadow-md cursor-pointer">
+              <div key={num} className="relative aspect-square group overflow-hidden border border-stone-200">
                 <Image 
                   src={`/img/galeria-${num}.webp`} 
-                  alt={`Imagen galería ${num}`} 
+                  alt={`Imagen ${num}`} 
                   fill 
-                  className="object-cover transition duration-700 group-hover:scale-110"
+                  className="object-cover transition duration-500 group-hover:scale-105"
                 />
-                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition duration-300 flex items-end justify-start p-6">
-                  <span className="text-white font-serif font-bold text-xl translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition duration-300">
-                    Plato Signature {num}
-                  </span>
-                </div>
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition duration-300"></div>
               </div>
             ))}
           </div>
-          
-          <div className="text-center mt-10">
-            <a href="https://www.instagram.com/restartcafe/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-[#b45309] font-bold hover:text-amber-900 transition font-serif">
-              📷 Ver más fotos en Instagram
-            </a>
-          </div>
         </div>
       </section>
 
-      {/* --- UBICACIÓN & CONTACTO --- */}
-      <section id="ubicacion" className="py-24 bg-[#fdfbf7]">
-        <div className="container mx-auto px-4 grid md:grid-cols-2 gap-16">
-          <div className="space-y-12">
-            <div>
-              <h2 className="text-4xl font-serif font-bold text-stone-900 mb-6">Visítanos</h2>
-              <p className="text-stone-600 font-light text-lg leading-relaxed mb-8">En el corazón de Puente de Vallecas, te esperamos para ofrecerte una experiencia gastronómica inolvidable.</p>
-              
-              <div className="space-y-4 mb-8">
-                <div className="flex items-start gap-4">
-                  <span className="text-[#b45309] text-xl">📍</span>
-                  <div>
-                    <h4 className="font-bold text-stone-900">Dirección</h4>
-                    <p className="text-stone-600 font-light">C. de Sierra Toledana, 4, 28038 Madrid</p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-4">
-                  <span className="text-[#b45309] text-xl">📞</span>
-                  <div>
-                    <h4 className="font-bold text-stone-900">Reservas</h4>
-                    <a href="tel:+34910712322" className="text-stone-600 font-light hover:text-[#b45309] transition">910 71 23 22</a>
-                  </div>
-                </div>
+      {/* --- UBICACIÓN Y MAPA --- */}
+      <section id="ubicacion" className="py-20 bg-stone-50">
+        <div className="container mx-auto px-4 grid md:grid-cols-2 gap-12 items-start">
+          <div>
+            <h2 className="text-3xl font-serif font-bold text-stone-900 mb-6">Ubicación</h2>
+            <div className="bg-white p-6 border border-stone-200 rounded-sm shadow-sm mb-6">
+              <p className="text-lg font-medium text-stone-800 mb-2">📍 C. de Sierra Toledana, 4</p>
+              <p className="text-stone-600 mb-4">28038 Madrid, Puente de Vallecas</p>
+              <a href="https://maps.google.com" target="_blank" rel="noopener noreferrer" className="text-[#b45309] font-bold hover:underline">Cómo llegar →</a>
+            </div>
+            <div className="space-y-4">
+              <div className="flex items-center gap-3">
+                <span className="text-2xl">📞</span>
+                <a href="tel:+34910712322" className="text-stone-700 hover:text-[#b45309] font-medium">910 71 23 22</a>
+              </div>
+              <div className="flex items-center gap-3">
+                <span className="text-2xl">✉️</span>
+                <a href="mailto:info@restartcafe.com" className="text-stone-700 hover:text-[#b45309] font-medium">info@restartcafe.com</a>
               </div>
             </div>
           </div>
-          
-          <div className="h-[500px] bg-stone-200 rounded-sm overflow-hidden shadow-xl relative">
+          <div className="h-[400px] bg-stone-300 rounded-sm overflow-hidden shadow-md">
              <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3038.6666666666665!2d-3.6500000000000004!3d40.390000000000004!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd42270000000001%3A0x1234567890abcdef!2sC.%20de%20Sierra%20Toledana%2C%204%2C%2028038%20Madrid!5e0!3m2!1ses!2ses!4v1234567890123!5m2!1ses!2ses" width="100%" height="100%" style={{border:0}} allowFullScreen loading="lazy"></iframe>
           </div>
         </div>
       </section>
 
       {/* --- FOOTER --- */}
-      <footer className="bg-stone-900 text-stone-400 py-20 border-t border-stone-800">
-        <div className="container mx-auto px-4 grid md:grid-cols-4 gap-12 text-sm">
-          <div className="col-span-1 md:col-span-2">
-            <h4 className="text-white font-serif font-bold text-2xl mb-6">Rest Art Café</h4>
-            <p className="max-w-xs font-light leading-relaxed mb-8">Donde la tradición culinaria se encuentra con la innovación en un ambiente acogedor y sofisticado.</p>
-          </div>
-          
+      <footer className="bg-stone-900 text-stone-400 py-12 border-t border-stone-800 text-center md:text-left">
+        <div className="container mx-auto px-4 grid md:grid-cols-3 gap-8">
           <div>
-            <h4 className="text-white font-bold text-xs uppercase tracking-widest mb-6">Explorar</h4>
-            <ul className="space-y-3 font-light">
-              <li><Link href="#inicio" className="hover:text-[#d97706] transition">Inicio</Link></li>
-              <li><Link href="#menú" className="hover:text-[#d97706] transition">Menú</Link></li>
-              <li><Link href="#reservas" className="hover:text-[#d97706] transition">Reservas</Link></li>
-            </ul>
+            <h4 className="text-white font-serif font-bold text-xl mb-4">Rest Art Café</h4>
+            <p className="text-sm">© 2026 Todos los derechos reservados.</p>
           </div>
-
-          <div>
-            <h4 className="text-white font-bold text-xs uppercase tracking-widest mb-6">Legal</h4>
-            <ul className="space-y-3 font-light">
-              <li><Link href="/aviso-legal" className="hover:text-[#d97706] transition">Aviso Legal</Link></li>
-              <li><Link href="/privacidad" className="hover:text-[#d97706] transition">Privacidad</Link></li>
-              <li><Link href="/cookies" className="hover:text-[#d97706] transition">Cookies</Link></li>
-            </ul>
+          <div className="flex flex-col gap-2">
+            <Link href="/aviso-legal" className="hover:text-white transition text-sm">Aviso Legal</Link>
+            <Link href="/privacidad" className="hover:text-white transition text-sm">Política de Privacidad</Link>
+            <Link href="/cookies" className="hover:text-white transition text-sm">Política de Cookies</Link>
           </div>
-        </div>
-        <div className="container mx-auto px-4 mt-16 pt-8 border-t border-stone-800 text-center text-xs font-light">
-          <p>© 2026 Rest Art Café. All rights reserved.</p>
+          <div className="flex justify-center md:justify-end gap-4">
+             <a href="#" className="text-stone-400 hover:text-white transition">Instagram</a>
+             <a href="#" className="text-stone-400 hover:text-white transition">Facebook</a>
+          </div>
         </div>
       </footer>
     </main>
