@@ -1,9 +1,11 @@
-'use client'; // Necesario para usar useSearchParams
+'use client'; // Necesario para usar useSearchParams y Suspense
+
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
-import { useState } from 'react';
+import { Suspense, useState } from 'react';
 
-export default function CartaPage() {
+// Componente principal que contiene la lógica de la carta
+function CartaContent() {
   const searchParams = useSearchParams();
   const mesa = searchParams.get('mesa');
   
@@ -133,5 +135,26 @@ function MenuItem({ name, desc, price }: { name: string, desc: string, price: st
       </div>
       <span className="font-bold text-amber-700 whitespace-nowrap">{price}</span>
     </div>
+  );
+}
+
+// Componente de carga mientras se resuelve el Suspense
+function LoadingCarta() {
+  return (
+    <div className="min-h-screen bg-stone-50 flex items-center justify-center">
+      <div className="text-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-amber-600 mx-auto mb-4"></div>
+        <p className="text-stone-600">Cargando carta...</p>
+      </div>
+    </div>
+  );
+}
+
+// Exportación principal envuelta en Suspense
+export default function CartaPage() {
+  return (
+    <Suspense fallback={<LoadingCarta />}>
+      <CartaContent />
+    </Suspense>
   );
 }
