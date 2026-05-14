@@ -132,7 +132,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* --- GALERÍA --- */}
+      {/* --- GALERÍA DE 6 IMÁGENES (CORREGIDO) --- */}
       <section id="galería" className="py-24 bg-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
@@ -140,15 +140,29 @@ export default function Home() {
             <p className="text-stone-500 font-light">Nuestros espacios y creaciones</p>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 auto-rows-[250px]">
-            {[1, 2, 3, 4, 5, 6, 7, 8].map((num) => (
-              <div key={num} className={`relative group overflow-hidden rounded-sm ${num === 1 || num === 6 ? 'md:col-span-2 md:row-span-2' : ''}`}>
-                <Image src={`/img/galeria-${num}.webp`} alt={`Gallery ${num}`} fill className="object-cover transition duration-700 group-hover:scale-105" />
-                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition duration-500 flex items-end p-6">
-                  <span className="text-white font-serif text-xl translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition duration-500">Plato Signature {num}</span>
+          {/* Grid de 6 imágenes: 3 columnas en desktop, 2 en móvil */}
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 max-w-6xl mx-auto">
+            {[1, 2, 3, 4, 5, 6].map((num) => (
+              <div key={num} className="relative aspect-square group overflow-hidden rounded-sm shadow-md cursor-pointer">
+                <Image 
+                  src={`/img/galeria-${num}.webp`} 
+                  alt={`Imagen galería ${num}`} 
+                  fill 
+                  className="object-cover transition duration-700 group-hover:scale-110"
+                />
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition duration-300 flex items-end justify-start p-6">
+                  <span className="text-white font-serif font-bold text-xl translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition duration-300">
+                    Plato Signature {num}
+                  </span>
                 </div>
               </div>
             ))}
+          </div>
+          
+          <div className="text-center mt-10">
+            <a href="https://www.instagram.com/restartcafe/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-[#b45309] font-bold hover:text-amber-900 transition font-serif">
+              📷 Ver más fotos en Instagram
+            </a>
           </div>
         </div>
       </section>
